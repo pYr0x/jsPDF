@@ -1711,8 +1711,14 @@ var jsPDF = (function(global) {
         });
       },
       output = SAFE(function(type, options) {
-        options = options || {};
-        options.filename = options.filename || "generated.pdf";
+        if (typeof options === "string") {
+          options = {
+            filename: options
+          };
+        } else {
+          options = options || {};
+          options.filename = options.filename || 'generated.pdf';
+        }
         var datauri =
           ("" + type).substr(0, 6) === "dataur"
             ? "data:application/pdf;filename=" + options.filename + ";base64," + btoa(buildDocument())
@@ -4244,7 +4250,7 @@ var jsPDF = (function(global) {
      * @returns {jsPDF} jsPDF-instance
      */
     API.save = function(filename) {
-      API.output("save", filename);
+      API.output("save");
     };
 
     // applying plugins (more methods) ON TOP of built-in API.
