@@ -20,8 +20,8 @@
 
   /** @license
    * jsPDF - PDF Document creation from JavaScript
-   * Version 2.0.0 Built on 2018-10-26T14:21:49.816Z
-   *                           CommitID fae15b05df
+   * Version 2.0.0 Built on 2019-01-15T19:26:10.462Z
+   *                           CommitID c53472526b
    *
    * Copyright (c) 2015-2018 yWorks GmbH, http://www.yworks.com
    *               2015-2018 Lukas Holländer <lukas.hollaender@yworks.com>, https://github.com/HackbrettXXX
@@ -1681,8 +1681,15 @@
         });
       },
           _output = SAFE(function (type, options) {
-        options = options || {};
-        options.filename = options.filename || "generated.pdf";
+        if (typeof options === "string") {
+          options = {
+            filename: options
+          };
+        } else {
+          options = options || {};
+          options.filename = options.filename || 'generated.pdf';
+        }
+
         var datauri = ("" + type).substr(0, 6) === "dataur" ? "data:application/pdf;filename=" + options.filename + ";base64," + btoa(buildDocument()) : 0;
 
         switch (type) {
@@ -2431,6 +2438,7 @@
        * @param key {String}
        * @returns {{x: number, y: number, width: number, height: number, matrix: Matrix}}
        * @function
+       * @returns {jsPDF}
        * @methodOf jsPDF#
        * @name getFormObject
        */
@@ -19474,7 +19482,6 @@
     return constructor;
   }();
 
-  // import './main_polyfill.js';
   exports.default = jsPDF;
   var _default2 = exports.default;
   function rewire($stub) {
